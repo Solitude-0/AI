@@ -1,0 +1,64 @@
+server:
+  port: ${SERVER_PORT:8021}
+  # 优雅关闭，避免停机时直接中断正在处理的请求。
+  shutdown: graceful
+  servlet:
+    encoding:
+      charset: UTF-8
+
+
+spring:
+  application:
+    name: ai-week1-starter
+
+  ai:
+    # OpenRouter（OpenAI 兼容）配置
+    openai:
+      base-url: ${AI_BASE_URL:https://openrouter.ai/api/v1}
+      api-key: ${AI_OPENAI_API_KEY:}
+      chat:
+        model: ${AI_MODEL:nvidia/nemotron-3.5-super-vl:free}
+        temperature: 0.7
+      # 流式回答要覆盖整段生成时间。默认 60s，读超时后 OkHttp 会取消 HTTP/2 流。
+      timeout: 5m
+
+    retry:
+      max-attempts: 1
+    chat:
+      memory:
+        repository:
+          jdbc:
+            # PostgreSQL 不是嵌入式库，需要显式建表。
+            initialize-schema: always
+
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/ai_week1
+    username: ${PG_USERNAME:postgres}
+    password: ${PG_PASSWORD:postgres}
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 16379
+      database: 15
+
+  mvc:
+    async:
+      # 给 SSE 等异步 HTTP 请求设置上限；应大于模型请求超时。
+      request-timeout: 6m
+
+app:
+  # postgres：Spring AI JdbcChatMemoryRepository；redis：本地 RedisChatMemoryRepository（需取消上面的 exclude）。
+  chat-memory:
+    store: postgres
+  anysearch:
+    # 可选。不填则使用 AnySearch 的匿名额度。
+    api-key: ${ANYSEARCH_API_KEY:}
+    max-results: 5
+    zone: cn
+    language: zh-CN
+
+logging:
+  level:
+    root: INFO
+    com.example.aiweek1: INFO
