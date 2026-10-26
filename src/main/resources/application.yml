@@ -12,15 +12,25 @@ spring:
     name: ai-week1-starter
 
   ai:
-    # OpenRouter（OpenAI 兼容）配置
+    # OpenRouter（OpenAI 兼容）配置，暂时停用
     openai:
-      base-url: ${AI_BASE_URL:https://openrouter.ai/api/v1}
-      api-key: ${AI_OPENAI_API_KEY:}
+      base-url: https://openrouter.ai/api/v1
+      #api-key: ${AI_OPENAI_API_KEY:sk-ws-H.PXHDHYX.2z7T.MEYCIQD9g2L89fCGlPti2g8kYezj8BuQ4ANBy36dAHadS4t15wIhAJ03GMCXqjWzwzy6w6jOzdlksxqtKFB-wpb77hxrL00I}
+      api-key: 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
       chat:
-        model: ${AI_MODEL:nvidia/nemotron-3.5-super-vl:free}
+        model: nvidia/nemotron-3.5-super-vl:free
+#        model: z-ai/glm-5.3-flash
         temperature: 0.7
       # 流式回答要覆盖整段生成时间。默认 60s，读超时后 OkHttp 会取消 HTTP/2 流。
       timeout: 5m
+
+    # 千问 DashScope。
+#    openai:
+#      base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
+#      api-key: sk-ws-H.YMMEDRE.oMok.MEYCIQDLUFnQyEg-qgUWxWa_rwv_gDMMtRuoS6UeUiURYYhRewIhAOLP1OJnXG9r-o0uoWGFgFBfMOVglZaaNlRWwipbjxIo
+#      chat:
+#        model: qwen-plus
+#        temperature: 0.7
 
     retry:
       max-attempts: 1
@@ -53,7 +63,7 @@ app:
     store: postgres
   anysearch:
     # 可选。不填则使用 AnySearch 的匿名额度。
-    api-key: ${ANYSEARCH_API_KEY:}
+    api-key: as_sk_f2c05caaad884820455e676127c97d12
     max-results: 5
     zone: cn
     language: zh-CN
