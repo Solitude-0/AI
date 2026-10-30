@@ -61,6 +61,7 @@ app:
   # postgres：Spring AI JdbcChatMemoryRepository；redis：本地 RedisChatMemoryRepository（需取消上面的 exclude）。
   chat-memory:
     store: postgres
+
   anysearch:
     # 可选。不填则使用 AnySearch 的匿名额度。
     api-key: as_sk_f2c05caaad884820455e676127c97d12
@@ -68,6 +69,7 @@ app:
     zone: cn
     language: zh-CN
 
+# 日纸质文件
 logging:
   level:
     root: INFO
